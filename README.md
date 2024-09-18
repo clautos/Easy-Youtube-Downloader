@@ -1,6 +1,6 @@
 # Web-Based YouTube Video Downloader
 
-This is a web-based YouTube video downloader that you can host using a simple web server (e.g., Lighttpd, but Apache also works). It is based on `yt-dlp`, allowing you to download videos with a simple click through a web page without having to type commands. It also uses `uqload_downloader` for downloading uqload videos.
+This is a web-based YouTube video downloader that you can host using a simple web server (e.g., Lighttpd or Apache). It is based on `yt-dlp`, allowing you to download videos with a simple click through a web page without having to type commands. It also uses `uqload_downloader` for downloading uqload videos.
 
 **GitHub link for uqload_downloader:** [uqload_downloader](https://github.com/thomasarmel/uqload_downloader)
 
@@ -8,7 +8,8 @@ This is a web-based YouTube video downloader that you can host using a simple we
 
 - Downloads videos from various hosting sites such as Twitter, Facebook, YouTube, and more.
 - Provides a user-friendly web interface for downloading videos.
-- Supports persistent and temporary downloads.
+- Supports local downloads and files serving after download (server mode).
+- If you are using the web app on localhost on your laptop, use "local mode" and configure the symlink persistentDownloads to your downloads folder
 - Easy to access, once installed just go to the server (or localhost if installed on your laptop) and type : http://localhost or http://server_IP
   with server_IP being the IP of your machine hosting the page
 
