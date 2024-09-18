@@ -6,6 +6,11 @@
     <title>Easy Youtube-Downloader</title>
     <link rel="icon" type="image/png" href="src/icon.png">
     <link rel="stylesheet" href="src/page_style.css">
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
 </head>
 <body>
     <div class="title-main">Easy Youtube-Downloader</div>
@@ -13,17 +18,24 @@
         <div class="theme-switch">
             <button id="theme-toggle">Switch Theme</button>
         </div>
+        <div class="local-mode-switch">
+            <label for="local-mode">
+                <input type="checkbox" id="local-mode" name="local-mode"> Local Mode
+            </label>
+        </div>
         <h1>Supports many more sites than just YouTube!</h1>
-        <form method="POST">
+        <form method="POST" id="download-form">
             <label for="choice">Choose an option:</label>
             <select name="choice" id="choice">
                 <option value="audio">Audio</option>
                 <option value="video">Video</option>
             </select>
-            <select name="download_option" id="download_option">
-                <option value="local">Download on your browser (slower)</option>
-                <option value="remote">Download only on the server (faster)</option>
-            </select>
+            <div id="download-options">
+                <select name="download_option" id="download_option">
+                    <option value="local">Download on your browser (slower)</option>
+                    <option value="remote">Download only on the server (faster)</option>
+                </select>
+            </div>
             <br>
             <label for="url">Video URL:</label>
             <input type="text" name="url" required id="url">
@@ -34,10 +46,13 @@
             (do not leave the page until the download starts)
             <br>
         </div>
-
         <script>
             const themeToggle = document.getElementById('theme-toggle');
             const htmlElement = document.documentElement;
+            const localModeCheckbox = document.getElementById('local-mode');
+            const downloadOptions = document.getElementById('download-options');
+            const downloadOptionSelect = document.getElementById('download_option');
+            const downloadForm = document.getElementById('download-form');
 
             function setCookie(name, value, days) {
                 const d = new Date();
@@ -78,11 +93,36 @@
                 }
             }
 
+            function updateLocalMode(isLocal) {
+                localModeCheckbox.checked = isLocal;
+                setCookie('localMode', isLocal ? 'true' : 'false', 90);  // Cookie valid for 90 days
+                toggleLocalMode();
+            }
+
+            function toggleLocalMode() {
+                const isLocal = localModeCheckbox.checked;
+                if (isLocal) {
+                    downloadOptions.classList.add('hidden');
+                    downloadOptionSelect.value = 'remote';  // Set to 'remote' when local mode is active
+                } else {
+                    downloadOptions.classList.remove('hidden');
+                }
+            }
+
+            // Theme initialization
             const savedTheme = getCookie('theme');
             if (savedTheme) {
                 updateTheme(savedTheme);
             } else {
                 updateTheme('light');  // Default theme
+            }
+
+            // Local mode initialization
+            const savedLocalMode = getCookie('localMode');
+            if (savedLocalMode) {
+                updateLocalMode(savedLocalMode === 'true');
+            } else {
+                updateLocalMode(false);  // Default to non-local mode
             }
 
             themeToggle.addEventListener('click', () => {
@@ -91,6 +131,16 @@
                 updateTheme(newTheme);
             });
 
+            localModeCheckbox.addEventListener('change', () => {
+                updateLocalMode(localModeCheckbox.checked);
+            });
+
+            downloadForm.addEventListener('submit', (e) => {
+                if (localModeCheckbox.checked) {
+                    // Ensure 'remote' option is selected when in local mode
+                    downloadOptionSelect.value = 'remote';
+                }
+            });
         </script>
     </div>
 </body>
