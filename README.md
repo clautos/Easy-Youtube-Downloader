@@ -9,7 +9,7 @@ This is a web-based YouTube video downloader that you can host using a simple we
 - Downloads videos from various hosting sites such as Twitter, Facebook, YouTube, and more.
 - Provides a user-friendly web interface for downloading videos.
 - Supports local downloads and files serving after download (server mode).
-- If you are using the site on localhost on your laptop, use "local mode" and configure the symlink persistentDownloads to your downloads folder
+- If you are using the web app on localhost on your laptop, use "local mode" and configure the symlink persistentDownloads to your downloads folder
 - Easy to access, once installed just go to the server (or localhost if installed on your laptop) and type : http://localhost or http://server_IP
   with server_IP being the IP of your machine hosting the page
 
