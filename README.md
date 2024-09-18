@@ -1,6 +1,6 @@
 # Web-Based YouTube Video Downloader
 
-This is a web-based YouTube video downloader that you can host using a simple web server (e.g., Lighttpd, but Apache also works). It is based on `yt-dlp`, allowing you to download videos with a simple click through a web page without having to type commands. It also uses `uqload_downloader` for downloading uqload videos.
+This is a web-based YouTube video downloader that you can host using a simple web server (e.g., Lighttpd or Apache). It is based on `yt-dlp`, allowing you to download videos with a simple click through a web page without having to type commands. It also uses `uqload_downloader` for downloading uqload videos.
 
 **GitHub link for uqload_downloader:** [uqload_downloader](https://github.com/thomasarmel/uqload_downloader)
 
