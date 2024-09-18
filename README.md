@@ -9,6 +9,8 @@ This is a web-based YouTube video downloader that you can host using a simple we
 - Downloads videos from various hosting sites such as Twitter, Facebook, YouTube, and more.
 - Provides a user-friendly web interface for downloading videos.
 - Supports persistent and temporary downloads.
+- Easy to access, once installed just go to the server (or localhost if installed on your laptop) and type : http://localhost or http://server_IP
+  with server_IP being the IP of your machine hosting the page
 
 ## Setup Instructions
 
