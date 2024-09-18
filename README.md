@@ -4,6 +4,8 @@ This is a web-based YouTube video downloader that you can host using a simple we
 
 **GitHub link for uqload_downloader:** [uqload_downloader](https://github.com/thomasarmel/uqload_downloader)
 
+<img src="images/download.svg" width="50em">
+<img align="right" style="padding-left: 3%" src="sitepreview/.gif">
 ## Features
 
 - Downloads videos from various hosting sites such as Twitter, Facebook, YouTube, and more.
