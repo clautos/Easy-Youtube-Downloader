@@ -34,6 +34,9 @@ Download and install the following:
 ```bash
 sudo apt-get install python3
 pip3 install yt-dlp
+# don't forget to regularly update yt-dlp with pip so it stays able to download videos if YouTube updates the site
+# for example with this cronjob: 15 * * * * root pip3 install -U yt-dlp >/dev/null 2>&1
+# tested on Ubuntu Server 22.04 LTS, you may have to adapt it for latest releases as venv are managed differently, as far as I know
 git clone https://github.com/thomasarmel/uqload_downloader.git
 cd uqload_downloader
 # Follow the installation instructions in uqload_downloader repository
