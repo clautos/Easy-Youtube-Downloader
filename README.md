@@ -3,9 +3,9 @@
 This is a web-based YouTube video downloader that you can host using a simple web server (e.g., Lighttpd or Apache). It is based on `yt-dlp`, allowing you to download videos with a simple click through a web page without having to type commands. It also uses `uqload_downloader` for downloading uqload videos.
 
 **GitHub link for uqload_downloader:** [uqload_downloader](https://github.com/thomasarmel/uqload_downloader)
-
-<img src="images/download.svg" width="50em">
-<img align="right" style="padding-left: 3%" src="sitepreview/.gif">
+<div align="center">
+  <img src="preview/sitepreview.gif" style="width: 70%;">
+</div>
 ## Features
 
 - Downloads videos from various hosting sites such as Twitter, Facebook, YouTube, and more.
