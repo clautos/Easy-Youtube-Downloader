@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Easy Youtube-Downloader</title>
+    <link rel="icon" type="image/png" href="src/icon.png">
+    <link rel="stylesheet" href="src/page_style.css">
+</head>
+<body>
+    <div class="title-main">Easy Youtube-Downloader</div>
+    <div class="container">
+        <div class="theme-switch">
+            <button id="theme-toggle">Switch Theme</button>
+        </div>
+        <h1>Supports many more sites than just YouTube!</h1>
+        <form method="POST">
+            <label for="choice">Choose an option:</label>
+            <select name="choice" id="choice">
+                <option value="audio">Audio</option>
+                <option value="video">Video</option>
+            </select>
+            <select name="download_option" id="download_option">
+                <option value="local">Download on your browser (slower)</option>
+                <option value="remote">Download only on the server (faster)</option>
+            </select>
+            <br>
+            <label for="url">Video URL:</label>
+            <input type="text" name="url" required id="url">
+            <br>
+            <button type="submit">Download</button>
+        </form>
+        <div class="warning">
+            (do not leave the page until the download starts)
+            <br>
+        </div>
+
+        <script>
+            const themeToggle = document.getElementById('theme-toggle');
+            const htmlElement = document.documentElement;
+
+            function setCookie(name, value, days) {
+                const d = new Date();
+                d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
+                const expires = "expires=" + d.toUTCString();
+                document.cookie = name + "=" + value + ";" + expires + ";path=/";
+            }
+
+            function getCookie(name) {
+                const cname = name + "=";
+                const decodedCookie = decodeURIComponent(document.cookie);
+                const ca = decodedCookie.split(';');
+                for (let i = 0; i < ca.length; i++) {
+                    let c = ca[i];
+                    while (c.charAt(0) === ' ') {
+                        c = c.substring(1);
+                    }
+                    if (c.indexOf(cname) === 0) {
+                        return c.substring(cname.length, c.length);
+                    }
+                }
+                return "";
+            }
+
+            function updateTheme(theme) {
+                htmlElement.setAttribute('data-theme', theme);
+                setCookie('theme', theme, 90);  // Cookie valid for 90 days
+                updateThemeToggle();
+            }
+
+            function updateThemeToggle() {
+                if (htmlElement.getAttribute('data-theme') === 'light') {
+                    themeToggle.textContent = '☽';
+                    themeToggle.setAttribute('aria-label', 'Switch to dark theme');
+                } else {
+                    themeToggle.textContent = '☀';
+                    themeToggle.setAttribute('aria-label', 'Switch to light theme');
+                }
+            }
+
+            const savedTheme = getCookie('theme');
+            if (savedTheme) {
+                updateTheme(savedTheme);
+            } else {
+                updateTheme('light');  // Default theme
+            }
+
+            themeToggle.addEventListener('click', () => {
+                const currentTheme = htmlElement.getAttribute('data-theme');
+                const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+                updateTheme(newTheme);
+            });
+
+        </script>
+    </div>
+</body>
+</html>
