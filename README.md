@@ -12,6 +12,8 @@ This is a web-based YouTube video downloader that you can host using a simple we
 
 ## Setup Instructions
 
+Copy all the files in the /var/www/html folder if using Apache of Lighttpd
+
 ### Create the Symlinks
 
 Create the following symlinks:
