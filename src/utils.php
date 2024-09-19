@@ -42,10 +42,19 @@ function getVideosList($playlistUrl)
 }
 
 function getFilename($url) {
-    $cmd = "yt-dlp --get-filename -o \"%(title)s.%(ext)s\" " . escapeshellarg($url);
-     exec($cmd, $output, $return_var);
-    if ($return_var !== 0) {
-        echo "<h2>Execution of yt-dlp title fetching command failed.\n<br><h2>";
+    try
+    {
+		// to prevent a crash of the app on easy PHP on Windows
+		set_time_limit(0);
+    	$cmd = "yt-dlp --get-filename -o \"%(title)s.%(ext)s\" " . escapeshellarg($url);
+    	exec($cmd, $output, $return_var);
+    	if ($return_var !== 0) {
+        	return "";
+    	}
+    }
+    catch (Exception $e)
+    {
+        echo "<h2>Erreur : " . $e->getMessage() . "</h2>";
         return "";
     }
     return !empty($output) ? $output[0] : "";
@@ -145,9 +154,19 @@ function attemptDownload($choice, $path, $url, $filename)
 }
 
 function executeDownloadCommand($path, $url, $filename, $format) {
-    $cmd = "cd " . escapeshellarg($path) . " && yt-dlp " . escapeshellarg($url) . " $format -o " . escapeshellarg($filename);
-    exec($cmd, $output, $returnVar);
-    return $returnVar;
+	try
+	{
+		// to prevent a crash of the app on easy PHP on Windows
+		set_time_limit(0);
+		$cmd = "cd " . escapeshellarg($path) . " && yt-dlp " . escapeshellarg($url) . " $format -o " . escapeshellarg($filename);
+		exec($cmd, $output, $returnVar);
+		return $returnVar;
+	}
+	catch (Exception $e)
+    {
+        echo "<h2>Erreur : " . $e->getMessage() . "</h2>";
+        return "";
+    }
 }
 
 function cleanFolderName($folder)
