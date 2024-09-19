@@ -18,6 +18,8 @@ This is a web-based YouTube video downloader that you can host using a simple we
 
 ## Setup Instructions
 
+For Windows installation, refer to the file README_WINDOWS.md
+The following is for Linux (especially Ubuntu server 22.04 LTS)
 Copy all the files in the /var/www/html folder if using Apache of Lighttpd
 
 ### Create the Symlinks
