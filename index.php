@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
     }
 }
 
-include 'src/main.html';
+
 
 if (isset($choice))
 {
@@ -60,6 +60,9 @@ if (isset($choice))
         downloadRegularVideo($url, $choice, $path, $downloadOption, $playListState);
     }
 }
+
+// If included above, and before the download takes place, the download is bugged
+include 'src/main.html';
 
 if (!empty($playListState['downloadLinks']))
 {
