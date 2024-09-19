@@ -171,7 +171,7 @@ function executeDownloadCommand($path, $url, $filename, $format) {
 
 function cleanFolderName($folder)
 {
-	return rtrim(realpath($folder), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+	return rtrim($folder, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
 }
 
 function findDownloadedFile($fullname) {
@@ -179,7 +179,7 @@ function findDownloadedFile($fullname) {
         return $fullname;
     }
     $matchingFiles = glob("$fullname.*");
-    return count($matchingFiles) > 0 ? $matchingFiles[0] : false;
+    return count($matchingFiles) > 0 ? $matchingFiles[0] : "";
 }
 
 function getContentType($filename) {

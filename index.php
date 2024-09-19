@@ -32,10 +32,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
         if ($downloadOption === 'local')
         {
             $path = cleanFolderName($tmpDownloads);
+            echo $path;
+            exit();
         }
         elseif ($downloadOption === 'remote')
         {
 			$path = cleanFolderName($persistentDownloads);
+			echo $path;
+            exit();
         }
     }
 }
