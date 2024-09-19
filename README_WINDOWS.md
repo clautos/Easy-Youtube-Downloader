@@ -3,7 +3,7 @@
 # Setup Instructions
 
 1. Install Visual C++ Redistributable Runtime Package (All-in-One)
-   - Download from: [TechPowerUp](https://www.techpowerup.com/download/visual-c-redistributable-runtime-package-all-in-one/)
+   - Download from: [VC Redist All in one](https://www.techpowerup.com/download/visual-c-redistributable-runtime-package-all-in-one/)
 
 2. Install EasyPHP
    - Download from: [EasyPHP DevServer](https://www.easyphp.org/save-easyphp-devserver-latest.php)
@@ -13,6 +13,7 @@
 
 4. Install Python 3
    - Important: Check the option to add Python to PATH during installation
+   - Download from: [Python3 for Windows](https://www.python.org/downloads/windows/)
 
 5. Open Command Prompt and run:
    python -m pip install yt-dlp ffmpeg
