@@ -2,8 +2,8 @@
 
 require_once 'utils.php';
 
-function downloadUqloadVideo($url, $path, $option_dl) {
-    $title = getUqloadVideoTitle($url);
+function downloadUqloadVideo($url, $path, $option_dl, &$playListState) {
+    $title = getUqloadVideoTitle($url, $playListState);
 	$title === '' ? exit() : null;
 
     $cmd = "cd $path && uqload_downloader $url \"$title\"";
@@ -15,11 +15,11 @@ function downloadUqloadVideo($url, $path, $option_dl) {
             serveFile($fullname);
             exit();
         } else {
-            echo "<h2>Unable to download the video</h2><br/>";
+            $playListState['errors'][] =  "<h2>Unable to download the video</h2><br/>";
             exit();
         }
     } elseif (!file_exists($fullname)) {
-        echo "<h2>Unable to download the video</h2><br/>";
+        $playListState['errors'][] =  "<h2>Unable to download the video</h2><br/>";
         exit();
     }
 }
@@ -47,9 +47,9 @@ function downloadYTPlaylist($playlistUrl, $choice, $path, $option_dl, &$playList
 }
 
 function downloadRegularVideo($url, $choice, $path, $option_dl, &$playListState) {
-    $filename = getFilename($url);
+    $filename = getFilename($url, $playListState);
     if (empty($filename)) {
-        echo "<h2>Unable to download the video $url, can't fetch the video name</h2><br/>";
+        $playListState['errors'][] =  "<h2>Unable to download the video $url, can't fetch the video name</h2><br/>";
         return 0;
     }
 
@@ -58,8 +58,8 @@ function downloadRegularVideo($url, $choice, $path, $option_dl, &$playListState)
         $filename = adjustFilenameForAudio($filename);
     }
 
-    if (!attemptDownload($choice, $path, $url, $filename)) {
-        echo "<h2>Unable to download the video $url, permission issue or maybe the video is unavailable</h2><br/>";
+    if (!attemptDownload($choice, $path, $url, $filename, $playListState)) {
+        $playListState['errors'][] =  "<h2>Unable to download the video $url, permission issue or maybe the video is unavailable</h2><br/>";
         return 0;
     }
 
@@ -70,7 +70,7 @@ function downloadRegularVideo($url, $choice, $path, $option_dl, &$playListState)
         serveFile($downloadedFile);
         exit;
     } elseif ($option_dl == "remote" && !$downloadedFile) {
-        echo "<h2>Error while downloading the file.</h2><br/>" . $filename;
+        $playListState['errors'][] =  "<h2>Error while downloading the file.</h2><br/>" . $filename;
         return 0;
     }
 

@@ -10,7 +10,8 @@ $persistentDownloads = 'C:\Users\test\Downloads';
 $playListState = [
     'downloadLinks' => [],
     'playList' => [],
-    'plIndex' => 0
+    'plIndex' => 0,
+    'errors' => []
 ];
 
 
@@ -46,7 +47,7 @@ if (isset($choice))
 {
     if (str_contains($_POST['url'], 'uqload.'))
     {
-        downloadUqloadVideo($url, $path, $downloadOption);
+        downloadUqloadVideo($url, $path, $downloadOption, $playListState);
     }
     elseif (
         (str_contains($url, 'https://youtube.com') || str_contains($url, 'youtu.be') || str_contains($url, 'www.youtube.com')) 
@@ -63,6 +64,15 @@ if (isset($choice))
 
 // If included above, and before the download takes place, the download is bugged
 include 'src/main.html';
+//So errors are printed after the page
+if ($playListState['errors'] != [])
+{
+	foreach ($playListState['errors'] as $err)
+	{
+		echo $err;
+	}
+	echo "<br>";
+}
 
 if (!empty($playListState['downloadLinks']))
 {

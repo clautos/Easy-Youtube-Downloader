@@ -41,7 +41,7 @@ function getVideosList($playlistUrl)
 	return $videos;
 }
 
-function getFilename($url) {
+function getFilename($url, &$playListState) {
     try
     {
 		// to prevent a crash of the app on easy PHP on Windows
@@ -54,7 +54,7 @@ function getFilename($url) {
     }
     catch (Exception $e)
     {
-        echo "<h2>Erreur : " . $e->getMessage() . "</h2>";
+        $playListState['errors'][] =  "<h2>Erreur : " . $e->getMessage() . "</h2>";
         return "";
     }
     return !empty($output) ? $output[0] : "";
@@ -65,7 +65,7 @@ function sanitizeFilename($filename) {
     return truncateFilename($filename);
 }
 
-function getUqloadVideoTitle($url)
+function getUqloadVideoTitle($url, &$playListState)
 {
 	$title = "";
     $html = file_get_contents($url);
@@ -81,7 +81,7 @@ function getUqloadVideoTitle($url)
         $title = str_replace(",", " ", $title);
 		return $title;
     } else {
-        echo "<h2>Unable to download the video</h2><br/>";
+        $playListState['errors'][] = "<h2>Unable to download the video</h2><br/>";
         return $title;
     }
 }
@@ -123,7 +123,7 @@ function serveFile($downloadedFile)
     exec("rm -fr " . escapeshellarg($downloadedFile));
 }
 
-function attemptDownload($choice, $path, $url, $filename)
+function attemptDownload($choice, $path, $url, $filename, &$playListState)
 {
 	$downloadSuccessful = false;
 	
@@ -137,7 +137,7 @@ function attemptDownload($choice, $path, $url, $filename)
     ];
 
     foreach ($formats[$choice] as $format) {
-        $returnVar = executeDownloadCommand($path, $url, $filename, $format);
+        $returnVar = executeDownloadCommand($path, $url, $filename, $format, $playListState);
         if ($returnVar == 0) {
             $downloadSuccessful = true;
             break;
@@ -146,14 +146,14 @@ function attemptDownload($choice, $path, $url, $filename)
             // Specific logic for the last video format
             exec("cd " . escapeshellarg($path) . " && yt-dlp -F " . escapeshellarg($url), $formatOutput);
             $lastFormat = explode(" ", end($formatOutput))[0];
-            $returnVar = executeDownloadCommand($path, $url, $filename, "-f $lastFormat");
+            $returnVar = executeDownloadCommand($path, $url, $filename, "-f $lastFormat", $playListState);
             $downloadSuccessful = ($returnVar === 0);
         }
     }
 	return $downloadSuccessful;
 }
 
-function executeDownloadCommand($path, $url, $filename, $format) {
+function executeDownloadCommand($path, $url, $filename, $format, &$playListState) {
 	try
 	{
 		// to prevent a crash of the app on easy PHP on Windows
@@ -164,7 +164,7 @@ function executeDownloadCommand($path, $url, $filename, $format) {
 	}
 	catch (Exception $e)
     {
-        echo "<h2>Erreur : " . $e->getMessage() . "</h2>";
+        $playListState['errors'][] = "<h2>Erreur : " . $e->getMessage() . "</h2>";
         return "";
     }
 }
