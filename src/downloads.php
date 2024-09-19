@@ -49,7 +49,7 @@ function downloadYTPlaylist($playlistUrl, $choice, $path, $option_dl, &$playList
 function downloadRegularVideo($url, $choice, $path, $option_dl, &$playListState) {
     $filename = getFilename($url);
     if (empty($filename)) {
-        echo "<h2>Unable to download the video $url</h2><br/>";
+        echo "<h2>Unable to download the video $url, can't fetch the video name</h2><br/>";
         return 0;
     }
 
@@ -58,8 +58,8 @@ function downloadRegularVideo($url, $choice, $path, $option_dl, &$playListState)
         $filename = adjustFilenameForAudio($filename);
     }
 
-    if (!attemptDownload($choice, $path, $url, $filename, $format)) {
-        echo "<h2>Unable to download the video $url</h2><br/>";
+    if (!attemptDownload($choice, $path, $url, $filename)) {
+        echo "<h2>Unable to download the video $url, permission issue or maybe the video is unavailable</h2><br/>";
         return 0;
     }
 

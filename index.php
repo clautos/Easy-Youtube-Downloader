@@ -3,14 +3,16 @@
 require_once 'src/downloads.php';
 
 // Configure the following symlinks so they point to actual folders
-$tmpDownloads = '/var/www/html/tempDownloads/';
-$persistentDownloads = '/var/www/html/persistentDownloads/';
+// Or configure to the actual Windows download folder if using Windows
+$tmpDownloads = 'C:\Users\test\Downloads';
+$persistentDownloads = 'C:\Users\test\Downloads';
 
 $playListState = [
     'downloadLinks' => [],
     'playList' => [],
     'plIndex' => 0
 ];
+
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST')
 {
@@ -29,11 +31,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
         $downloadOption = $_POST['download_option'];
         if ($downloadOption === 'local')
         {
-            $path = $tmpDownloads;
+            $path = cleanFolderName($tmpDownloads);
         }
         elseif ($downloadOption === 'remote')
         {
-            $path = $persistentDownloads;
+			$path = cleanFolderName($persistentDownloads);
         }
     }
 }

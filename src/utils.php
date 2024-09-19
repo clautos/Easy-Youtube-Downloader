@@ -1,5 +1,19 @@
 <?php
 
+// if PHP < version 8 to avoid errors
+if (!function_exists('str_contains')) {
+    function str_contains($haystack, $needle) {
+        return $needle === '' || strpos($haystack, $needle) !== false;
+    }
+}
+
+if (!function_exists('str_ends_with')) {
+    function str_ends_with($haystack, $needle) {
+        // Retourne true si $haystack se termine par $needle
+        return $needle === '' || substr($haystack, -strlen($needle)) === $needle;
+    }
+}
+
 // Function to truncate long video filenames (used for Twitter)
 function truncateFilename($filename) 
 {
@@ -29,7 +43,11 @@ function getVideosList($playlistUrl)
 
 function getFilename($url) {
     $cmd = "yt-dlp --get-filename -o \"%(title)s.%(ext)s\" " . escapeshellarg($url);
-    exec($cmd, $output);
+     exec($cmd, $output, $return_var);
+    if ($return_var !== 0) {
+        echo "<h2>Execution of yt-dlp title fetching command failed.\n<br><h2>";
+        return "";
+    }
     return !empty($output) ? $output[0] : "";
 }
 
@@ -96,7 +114,7 @@ function serveFile($downloadedFile)
     exec("rm -fr " . escapeshellarg($downloadedFile));
 }
 
-function attemptDownload($choice, $path, $url, $filename, $format)
+function attemptDownload($choice, $path, $url, $filename)
 {
 	$downloadSuccessful = false;
 	
@@ -111,7 +129,7 @@ function attemptDownload($choice, $path, $url, $filename, $format)
 
     foreach ($formats[$choice] as $format) {
         $returnVar = executeDownloadCommand($path, $url, $filename, $format);
-        if ($returnVar === 0) {
+        if ($returnVar == 0) {
             $downloadSuccessful = true;
             break;
         }
@@ -130,6 +148,11 @@ function executeDownloadCommand($path, $url, $filename, $format) {
     $cmd = "cd " . escapeshellarg($path) . " && yt-dlp " . escapeshellarg($url) . " $format -o " . escapeshellarg($filename);
     exec($cmd, $output, $returnVar);
     return $returnVar;
+}
+
+function cleanFolderName($folder)
+{
+	return rtrim(realpath($folder), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
 }
 
 function findDownloadedFile($fullname) {
