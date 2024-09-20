@@ -28,3 +28,5 @@
 
 8. Install FFmpeg (for MP3/MP4 handling)
 - Download from: [LAME Ain't an MP3 Encoder](https://lame.buanzo.org/ffmpeg.php)
+
+9. Restart the computer, and start the EasyPHP server whenever you need to use the page
